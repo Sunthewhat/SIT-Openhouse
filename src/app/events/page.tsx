@@ -52,14 +52,16 @@ const OpenhouseWorkshopPage: FC = () => {
 			<ImageSlideshow images={exampleImages} autoplaySpeed={10000} />
 			<div className='mainBox max-w-screen-lg m-auto p-5'>
 				<div className='Opening'>
-					<p className='text-2xl my-8 font-bold text-blue_dark'>กิจกรรมที่เปิดรับสมัคร</p>
-					<div className='MorningWorkshop mb-12 gap-y-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4'>
-						{workshops === null || workshops.morningEvents.length === 0 ? (
+					<p className='text-2xl my-2 md:my-8 font-bold text-blue_dark'>
+						กิจกรรมที่เปิดรับสมัคร
+					</p>
+					<div className='OpeningEvents gap-x-2 mb-12 gap-y-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4'>
+						{workshops === null || workshops.openingEvents.length === 0 ? (
 							<WorkshopCardPlaceholder
 								status={workshops === null ? 'Loading' : 'Coming Soon'}
 							/>
 						) : (
-							workshops.morningEvents.map((w, i) => (
+							workshops.openingEvents.map((w, i) => (
 								<WorkshopCard
 									key={i}
 									workshop={w}
@@ -73,12 +75,12 @@ const OpenhouseWorkshopPage: FC = () => {
 				<div className='Upcoming pt-5'>
 					<p className='text-2xl my-8 font-bold text-blue_dark'>เร็วๆนี้</p>
 					<div className='NoonWorkshop mb-12 gap-y-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4'>
-						{workshops === null || workshops.noonEvents.length === 0 ? (
+						{workshops === null || workshops.upcomingEvents.length === 0 ? (
 							<WorkshopCardPlaceholder
 								status={workshops === null ? 'Loading' : 'Coming Soon'}
 							/>
 						) : (
-							workshops.noonEvents.map((w, i) => (
+							workshops.upcomingEvents.map((w, i) => (
 								<WorkshopCard
 									key={i}
 									workshop={w}

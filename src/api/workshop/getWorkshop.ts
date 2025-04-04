@@ -3,9 +3,8 @@ import { WorkshopData } from '@/model/workshop/workshopsResponse';
 import { Axios } from '@/utils/axios';
 
 type getWorkshopAPIData = {
-	morningEvents: WorkshopData[];
-	noonEvents: WorkshopData[];
-	afterNoonEvents: WorkshopData[];
+	openingEvents: WorkshopData[];
+	upcomingEvents: WorkshopData[];
 };
 
 type seatsSummaryResponse = {
@@ -37,9 +36,8 @@ const getWorkshopAPI = async (): Promise<getWorkshopAPIData> => {
 		const seatsData = (await Axios.workshop.get<seatsSummaryResponse[]>('/eventSeatSummary'))
 			.data;
 
-		const morningEvents: WorkshopData[] = [];
-		const noonEvents: WorkshopData[] = [];
-		const afterNoonEvents: WorkshopData[] = [];
+		const openingEvents: WorkshopData[] = [];
+		const upcomingEvents: WorkshopData[] = [];
 		const data: WorkshopData[] = workshopData.map((w): WorkshopData => {
 			const reservationCount = seatsData.find((s) => s.eventID == w.id);
 			return {
@@ -52,16 +50,24 @@ const getWorkshopAPI = async (): Promise<getWorkshopAPIData> => {
 			};
 		});
 		data.map((d) => {
-			const t = d.startAt[3];
-			if (t > 13) afterNoonEvents.push(d);
-			else if (t > 9) noonEvents.push(d);
-			else morningEvents.push(d);
+			// TODO seperate opening and upcoming
+			openingEvents.push(d);
 		});
 
-		return { morningEvents, noonEvents, afterNoonEvents };
+		openingEvents.sort((a, b) => {
+			const at = a.startAt;
+			const bt = b.startAt;
+			if (at[0] !== bt[0]) return at[0] - bt[0];
+			if (at[1] !== bt[1]) return at[1] - bt[1];
+			if (at[2] !== bt[2]) return at[2] - bt[2];
+			if (at[3] !== bt[3]) return at[3] - bt[3];
+			return at[4] - bt[4];
+		});
+
+		return { openingEvents, upcomingEvents };
 	} catch (e) {
 		console.error(e);
-		return { morningEvents: [], noonEvents: [], afterNoonEvents: [] };
+		return { openingEvents: [], upcomingEvents: [] };
 	}
 };
 

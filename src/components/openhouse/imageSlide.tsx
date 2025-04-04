@@ -137,12 +137,12 @@ const ImageSlideshow: FC<ImageSlideshowProps> = ({
 			</button>
 
 			{/* Pagination indicators */}
-			<div className='absolute bottom-4 left-0 right-0 z-20 flex justify-center space-x-2'>
+			<div className='absolute bottom-4 left-0 right-0 z-0 flex justify-center space-x-2'>
 				{images.map((_, index) => (
 					<button
 						key={index}
 						onClick={() => goToSlide(index)}
-						className={`w-3 h-3 rounded-full focus:outline-none transition-colors ${
+						className={`w-2 h-2 md:w-3 md:h-3 rounded-full focus:outline-none transition-colors ${
 							index === currentIndex ? 'bg-white' : 'bg-white/50 hover:bg-white/80'
 						}`}
 						aria-label={`Go to slide ${index + 1}`}

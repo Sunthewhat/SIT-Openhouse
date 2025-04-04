@@ -68,7 +68,7 @@ const WorkshopCard: FC<WorkshopCardProps> = ({ workshop, handleSelect, selectedW
 								alt={workshop.name}
 								width={160}
 								height={160}
-								className='w-full object-cover rounded-lg md:aspect-video'
+								className='w-full object-cover rounded-lg aspect-[3/4]'
 							/>
 						</div>
 					) : (
@@ -151,7 +151,7 @@ const WorkshopCard: FC<WorkshopCardProps> = ({ workshop, handleSelect, selectedW
 
 const WorkshopCardPlaceholder: FC<{ status: 'Loading' | 'Coming Soon' }> = ({ status }) => {
 	return (
-		<div className='workshopCard font-bold text-xl mr-7 cursor-auto w-full h-[200px] flex text-center items-center justify-center text-[#636363] border-[#636363] border-[0.1px] rounded-2xl'>
+		<div className='workshopCard font-bold text-xl mr-7 cursor-auto w-full h-[500px] flex text-center items-center justify-center text-[#636363] border-[#636363] border-[0.1px] rounded-2xl'>
 			<p>{status} ...</p>
 		</div>
 	);

@@ -51,7 +51,7 @@ const WorkshopDetail: React.FC<WorkshopDetailProps> = ({
 						)}
 						{/* Workshop Details */}
 						<div className='mt-6 flex flex-col'>
-							<span className='text-xs lg:text-sm text-blue-600'>workshop</span>
+							{/* <span className='text-xs lg:text-sm text-blue-600'>workshop</span> */}
 							<h2 className='text-xl lg:text-2xl font-semibold text-gray-900'>
 								{workshop.name}
 							</h2>
