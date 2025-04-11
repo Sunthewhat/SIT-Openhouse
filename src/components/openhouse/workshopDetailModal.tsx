@@ -42,7 +42,7 @@ const WorkshopDetail: React.FC<WorkshopDetailProps> = ({
 							<Image
 								src={workshop.imagepath}
 								alt='Alumni Talk & Showcase'
-								className='w-full aspect-video rounded-xl object-cover '
+								className='w-full aspect-[3/4] rounded-xl object-cover '
 								width={500}
 								height={500}
 							/>

@@ -9,10 +9,6 @@ import { PDPAModal } from '@/components/openhouse/PDPAModal';
 import { workshopCookieHandler } from '@/utils/workshop-cookie-hander';
 import ImageSlideshow from '@/components/openhouse/imageSlide';
 
-import IMGEX1 from '@/assets/images/EX.png';
-import IMGEX2 from '@/assets/images/mock_image.png';
-import IMGEX3 from '@/assets/images/mainLogo_color.png';
-
 const OpenhouseWorkshopPage: FC = () => {
 	const [workshops, setWorkshops] = useState<getWorkshopAPIData | null>(null);
 	const [selectedWorkshops, setSelectedWorkshops] = useState<WorkshopData[]>([]);
@@ -33,15 +29,15 @@ const OpenhouseWorkshopPage: FC = () => {
 
 	const exampleImages = [
 		{
-			src: IMGEX1.src,
+			src: 'https://sitevent-api.sit.kmutt.ac.th/resources/2025/Banner_1.png',
 			alt: '',
 		},
 		{
-			src: IMGEX2.src,
+			src: 'https://sitevent-api.sit.kmutt.ac.th/resources/2025/Banner_2.png',
 			alt: '',
 		},
 		{
-			src: IMGEX3.src,
+			src: 'https://sitevent-api.sit.kmutt.ac.th/resources/2025/Banner_3.png',
 			alt: '',
 		},
 	];

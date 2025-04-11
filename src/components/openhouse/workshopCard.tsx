@@ -32,6 +32,8 @@ const WorkshopCard: FC<WorkshopCardProps> = ({ workshop, handleSelect, selectedW
 				const selectedEnd = parseWorkshopTimeToDateObject(selected.endAt);
 				const newStart = parseWorkshopTimeToDateObject(workshop.startAt);
 				const newEnd = parseWorkshopTimeToDateObject(workshop.endAt);
+				const isExeption = workshop.id === 31;
+				if (isExeption) return false;
 				return (
 					(newStart < selectedEnd && newStart >= selectedStart) ||
 					(newEnd > selectedStart && newEnd < selectedEnd) ||
@@ -74,7 +76,7 @@ const WorkshopCard: FC<WorkshopCardProps> = ({ workshop, handleSelect, selectedW
 					) : (
 						<div className='ImagePlaceholder w-[200px] lg:w-[300px] h-[100px] lg:h-[150px] bg-gradient rounded-2xl' />
 					)}
-					<div className=' w-full py-4 mb-2'>
+					<div className=' w-full pt-2 mb-2'>
 						<div className=''>
 							<p className='md:text-lg font-semibold line-clamp-2'>{workshop.name}</p>
 							<p className='font-light text-[#637381] text-xs lg:text-sm col-span-4 lg:col-span-3'>
