@@ -5,23 +5,23 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import './global.css';
 
 const noto = Noto_Sans_Thai({
-  subsets: ['thai'],
+	subsets: ['thai'],
 });
 
 export const metadata: Metadata = {
-  title: 'SIT Open House 2024',
-  description: 'Welcome to SIT Open House',
+	title: 'SIT Event',
+	description: 'Welcome to SIT Event',
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang='en'>
-      <GoogleAnalytics gaId='G-VV3V1JZTK1' />
-      <body className={noto.className}>{children}</body>
-    </html>
-  );
+	return (
+		<html lang='en'>
+			<GoogleAnalytics gaId='G-VV3V1JZTK1' />
+			<body className={noto.className}>{children}</body>
+		</html>
+	);
 }
