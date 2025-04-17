@@ -12,7 +12,6 @@ const globalConstants = {
 	PUBLIC_API_KEY: `${environmentURL}/sitopenhouse`,
 	STAFF_API_KEY: `${environmentURL}/sitopenhouse/intranet`,
 	IMAGE_PATH: `${globalURL.production}/resources/`,
-	WORKSHOP_REGISTER_END_DATE: `2025-11-12T06:00:00`,
 };
 
 export { globalConstants };

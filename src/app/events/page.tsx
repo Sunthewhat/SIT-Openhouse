@@ -48,8 +48,11 @@ const OpenhouseWorkshopPage: FC = () => {
 			<ImageSlideshow images={exampleImages} autoplaySpeed={10000} />
 			<div className='mainBox max-w-screen-lg m-auto p-5'>
 				<div className='Opening'>
-					<p className='text-2xl my-2 md:my-8 font-bold text-blue_dark'>
+					<p className='text-2xl my-1 md:my-4 font-bold text-blue_dark'>
 						กิจกรรมที่เปิดรับสมัคร
+					</p>
+					<p className='text-md my-1 md:my-4 text-gray-600'>
+						โปรดเลือกกิจกรรมที่ท่านสนใจให้ครบถ้วน ก่อนดำเนินการยืนยัน
 					</p>
 					<div className='OpeningEvents gap-x-2 mb-12 gap-y-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4'>
 						{workshops === null || workshops.openingEvents.length === 0 ? (

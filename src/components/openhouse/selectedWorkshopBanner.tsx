@@ -4,7 +4,6 @@ import removeIcon from '@/assets/svg/remove.svg';
 import submit from '@/assets/svg/submit.svg';
 import { ConfirmationPopup } from '@/components/openhouse/confirmationModal';
 import { WorkshopData } from '@/model/workshop/workshopsResponse';
-import { globalConstants } from '@/constants/global';
 import { addWorkshopAPI } from '@/api/staff/addWorkshopAPI';
 import { useRouter } from 'next/navigation';
 
@@ -24,7 +23,6 @@ const SelectedWorkshopBanner: FC<SelectedWorkshopBannerProps> = ({
 	uuid,
 }) => {
 	const [isPopupVisible, setIsPopupVisible] = useState(false);
-	const [isErrorVisible, setIsErrorVisible] = useState(false);
 	const [isStaffPopupVisible, setIsStaffPopupVisible] = useState(false);
 
 	const navigator = useRouter();
@@ -40,15 +38,7 @@ const SelectedWorkshopBanner: FC<SelectedWorkshopBannerProps> = ({
 			setIsStaffPopupVisible(true);
 			return;
 		}
-		const current = new Date();
-		const closeTime = new Date(globalConstants.WORKSHOP_REGISTER_END_DATE);
-		if (current > closeTime) {
-			setIsErrorVisible(true);
-			setTimeout(() => {
-				setIsErrorVisible(false);
-			}, 2000);
-			return;
-		}
+
 		setIsPopupVisible((prev) => !prev);
 	};
 
@@ -156,19 +146,7 @@ const SelectedWorkshopBanner: FC<SelectedWorkshopBannerProps> = ({
 					</div>
 				</div>
 			)}
-			<ErrorBanner isOpen={isErrorVisible} />
 		</>
-	);
-};
-
-const ErrorBanner: FC<{ isOpen: boolean }> = ({ isOpen }) => {
-	if (!isOpen) {
-		return null;
-	}
-	return (
-		<div className='fixed z-50 bottom-0 left-0 px-8 py-3 text-white text-xl font-semibold bg-[#1C3FB7] rounded-tr-2xl'>
-			! หมดเวลาการลงทะเบียน
-		</div>
 	);
 };
 
