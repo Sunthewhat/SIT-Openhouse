@@ -87,6 +87,27 @@ const OpenhouseWorkshopPage: FC = () => {
 						)}
 					</div>
 				</div>
+				{workshops && workshops.completedEvents.length > 0 && (
+					<div className='Ended pt-5'>
+						<p className='text-2xl my-8 font-bold text-blue_dark'>ผ่านมาแล้ว</p>
+						<div className='NoonWorkshop mb-12 gap-y-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4'>
+							{workshops === null || workshops.completedEvents.length === 0 ? (
+								<WorkshopCardPlaceholder
+									status={workshops === null ? 'Loading' : 'Coming Soon'}
+								/>
+							) : (
+								workshops.completedEvents.map((w, i) => (
+									<WorkshopCard
+										key={i}
+										workshop={w}
+										handleSelect={setSelectedWorkshops}
+										selectedWorkshop={selectedWorkshops}
+									/>
+								))
+							)}
+						</div>
+					</div>
+				)}
 				<SelectedWorkshopBanner
 					selectedWorkshops={selectedWorkshops}
 					handleRemove={setSelectedWorkshops}

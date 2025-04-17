@@ -21,14 +21,14 @@ const StaffWorkshopPage: FC = () => {
 		setWorkshops(dat);
 		const confirmedWorkshopResponse = await getConfirmedWorkshopAPI(UUID);
 		setConfirmedWorkshop(confirmedWorkshopResponse);
-		setNewWorkshop(dat.morningEvents.filter((w) => confirmedWorkshopResponse.includes(w.id)));
+		setNewWorkshop(dat.openingEvents.filter((w) => confirmedWorkshopResponse.includes(w.id)));
 		setNewWorkshop((prev) => [
 			...prev,
-			...dat.noonEvents.filter((w) => confirmedWorkshopResponse.includes(w.id)),
+			...dat.upcomingEvents.filter((w) => confirmedWorkshopResponse.includes(w.id)),
 		]);
 		setNewWorkshop((prev) => [
 			...prev,
-			...dat.afterNoonEvents.filter((w) => confirmedWorkshopResponse.includes(w.id)),
+			...dat.completedEvents.filter((w) => confirmedWorkshopResponse.includes(w.id)),
 		]);
 		setIsLoading(false);
 	};
@@ -62,9 +62,9 @@ const StaffWorkshopPage: FC = () => {
 			) : (
 				<div className='w-full'>
 					<div className='Morning'>
-						<p className='text-2xl my-8 font-bold text-blue_dark'>ช่วงเช้า</p>
+						<p className='text-2xl my-8 font-bold text-blue_dark'>Opening</p>
 						<div className='MorningWorkshop flex flex-col gap-2 mb-12 md:gap-y-8 md:grid md:grid-cols-4'>
-							{workshops?.morningEvents.map((w, i) => (
+							{workshops?.openingEvents.map((w, i) => (
 								<StaffWorkshopCard
 									workshop={w}
 									key={i}
@@ -76,9 +76,9 @@ const StaffWorkshopPage: FC = () => {
 						</div>
 					</div>
 					<div className='Noon'>
-						<p className='text-2xl my-8 font-bold text-blue_dark'>ช่วงเที่ยง</p>
+						<p className='text-2xl my-8 font-bold text-blue_dark'>Upcoming</p>
 						<div className='NoonWorkshop flex flex-col gap-2 mb-12 md:gap-y-8 md:grid md:grid-cols-4'>
-							{workshops?.noonEvents.map((w, i) => (
+							{workshops?.upcomingEvents.map((w, i) => (
 								<StaffWorkshopCard
 									workshop={w}
 									key={i}
@@ -90,9 +90,9 @@ const StaffWorkshopPage: FC = () => {
 						</div>
 					</div>
 					<div className='Afternoon'>
-						<p className='text-2xl my-8 font-bold text-blue_dark'>ช่วงบ่าย</p>
+						<p className='text-2xl my-8 font-bold text-blue_dark'>Completed</p>
 						<div className='AfterNoonWorkshop flex flex-col gap-2 mb-12 md:gap-y-8 md:grid md:grid-cols-4'>
-							{workshops?.afterNoonEvents.map((w, i) => (
+							{workshops?.completedEvents.map((w, i) => (
 								<StaffWorkshopCard
 									workshop={w}
 									key={i}

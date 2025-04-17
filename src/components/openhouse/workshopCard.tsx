@@ -70,6 +70,7 @@ const WorkshopCard: FC<WorkshopCardProps> = ({ workshop, handleSelect, selectedW
 								alt={workshop.name}
 								width={160}
 								height={160}
+								priority
 								className='w-full object-cover rounded-lg aspect-[3/4]'
 							/>
 						</div>
