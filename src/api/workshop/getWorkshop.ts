@@ -55,6 +55,9 @@ const getWorkshopAPI = async (): Promise<getWorkshopAPIData> => {
 		});
 
 		openingEvents.sort((a, b) => {
+			if (a.name.substring(0, 5) !== b.name.substring(0, 5)) {
+				return a.name.substring(0, 5).localeCompare(b.name.substring(0, 5));
+			}
 			const at = a.startAt;
 			const bt = b.startAt;
 			if (at[0] !== bt[0]) return at[0] - bt[0];

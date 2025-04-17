@@ -32,7 +32,7 @@ const WorkshopCard: FC<WorkshopCardProps> = ({ workshop, handleSelect, selectedW
 				const selectedEnd = parseWorkshopTimeToDateObject(selected.endAt);
 				const newStart = parseWorkshopTimeToDateObject(workshop.startAt);
 				const newEnd = parseWorkshopTimeToDateObject(workshop.endAt);
-				const isExeption = workshop.id === 31;
+				const isExeption = workshop.id === 31 || selected.id === 31;
 				if (isExeption) return false;
 				return (
 					(newStart < selectedEnd && newStart >= selectedStart) ||
