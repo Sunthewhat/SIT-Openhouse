@@ -54,9 +54,9 @@ const WorkshopCheckInPage: FC = () => {
 
 	const fetchWorkshop = async () => {
 		const data = await getWorkshopAPI();
-		let workshop = data.morningEvents.find((w) => w.id === workshopId);
-		if (!workshop) workshop = data.noonEvents.find((w) => w.id === workshopId);
-		if (!workshop) workshop = data.afterNoonEvents.find((w) => w.id === workshopId);
+		let workshop = data.openingEvents.find((w) => w.id === workshopId);
+		// if (!workshop) workshop = data.noonEvents.find((w) => w.id === workshopId);
+		// if (!workshop) workshop = data.afterNoonEvents.find((w) => w.id === workshopId);
 		setWorkshop(workshop);
 		setIsLoading(false);
 	};

@@ -50,29 +50,9 @@ const WorkshopCheckInPage: FC = () => {
 				</div>
 			) : (
 				<>
-					<p className='text-2xl my-8 font-bold text-blue_dark'>ช่วงเช้า</p>
+					<p className='text-2xl my-8 font-bold text-blue_dark'>Opening</p>
 					<div className='MorningWorkshop flex flex-col gap-2 mb-12 md:gap-y-8 md:grid md:grid-cols-4'>
-						{workshops?.morningEvents.map((workshop, index) => (
-							<WorkshopCard
-								key={index}
-								workshop={workshop}
-								handleClick={handleNavigate}
-							/>
-						))}
-					</div>
-					<p className='text-2xl my-8 font-bold text-blue_dark'>ช่วงเที่ยง</p>
-					<div className='NoonWorkshop flex flex-col gap-2 mb-12 md:gap-y-8 md:grid md:grid-cols-4'>
-						{workshops?.noonEvents.map((workshop, index) => (
-							<WorkshopCard
-								key={index}
-								workshop={workshop}
-								handleClick={handleNavigate}
-							/>
-						))}
-					</div>
-					<p className='text-2xl my-8 font-bold text-blue_dark'>ช่วงบ่าย</p>
-					<div className='AfterNoonWorkshop flex flex-col gap-2 mb-12 md:gap-y-8 md:grid md:grid-cols-4'>
-						{workshops?.afterNoonEvents.map((workshop, index) => (
+						{workshops?.openingEvents.map((workshop, index) => (
 							<WorkshopCard
 								key={index}
 								workshop={workshop}
