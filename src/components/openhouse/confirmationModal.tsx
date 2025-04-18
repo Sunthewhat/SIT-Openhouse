@@ -471,7 +471,7 @@ const ConfirmModal: FC<{
 						onClick={onSubmit}
 						disabled={isSubmitting}
 					>
-						ยืนยัน
+						{isSubmitting ? 'กำลังยืนยัน' : 'ยืนยัน'}
 					</button>
 				</div>
 			</div>
