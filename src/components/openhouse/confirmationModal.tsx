@@ -417,6 +417,7 @@ const ConfirmationPopup: FC<PopupProps> = ({ isVisible, onClose, workshops }) =>
 				isOpen={isConfirmModalOpen}
 				onClose={setIsConfirmModalOpen}
 				onSubmit={handleSendForm}
+				isSubmitting={isSubmitting}
 			/>
 			<SuccessModal isOpen={isSuccessModalOpen} onClose={setIsSuccessModalOpen} />
 		</Modal>
@@ -427,7 +428,8 @@ const ConfirmModal: FC<{
 	isOpen: boolean;
 	onClose: Dispatch<SetStateAction<boolean>>;
 	onSubmit: () => void;
-}> = ({ isOpen, onClose, onSubmit }) => {
+	isSubmitting: boolean;
+}> = ({ isOpen, onClose, onSubmit, isSubmitting }) => {
 	return (
 		<Modal isOpen={isOpen} setIsOpen={onClose}>
 			<div
@@ -461,8 +463,13 @@ const ConfirmModal: FC<{
 						ยกเลิก
 					</button>
 					<button
-						className='bg-[#1C3FB7] col-start-4 text-white text-sm lg:text-base font-semibold lg:py-2 lg:px-4 rounded-md w-fullh-[50px]'
+						className={`col-start-4 text-white text-sm lg:text-base font-semibold lg:py-2 lg:px-4 rounded-md w-fullh-[50px] ${
+							isSubmitting
+								? 'cursor-not-allowed bg-[#9CA3AF]'
+								: 'cursor-pointer bg-[#1C3FB7]'
+						}`}
 						onClick={onSubmit}
+						disabled={isSubmitting}
 					>
 						ยืนยัน
 					</button>
