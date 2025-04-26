@@ -21,15 +21,7 @@ const StaffWorkshopPage: FC = () => {
 		setWorkshops(dat);
 		const confirmedWorkshopResponse = await getConfirmedWorkshopAPI(UUID);
 		setConfirmedWorkshop(confirmedWorkshopResponse);
-		setNewWorkshop(dat.openingEvents.filter((w) => confirmedWorkshopResponse.includes(w.id)));
-		setNewWorkshop((prev) => [
-			...prev,
-			...dat.upcomingEvents.filter((w) => confirmedWorkshopResponse.includes(w.id)),
-		]);
-		setNewWorkshop((prev) => [
-			...prev,
-			...dat.completedEvents.filter((w) => confirmedWorkshopResponse.includes(w.id)),
-		]);
+
 		setIsLoading(false);
 	};
 
@@ -110,14 +102,32 @@ const StaffWorkshopCard: FC<{
 }> = ({ workshop, confirmed, handleAdd, workshops }) => {
 	const isConfirmed = confirmed.includes(workshop.id);
 
+	const isSeatFull = workshop.remainingSeats <= 0;
+
+	const workshopDate = parseWorkshopTimeToDateObject(workshop.startAt);
+	const queueOpeningTime = new Date(
+		workshopDate.getFullYear(),
+		workshopDate.getMonth(),
+		workshopDate.getDate() - 2,
+		8,
+		0
+	);
+
+	const isOpenQueue = new Date() >= queueOpeningTime;
+
 	const handleSelect = () => {
 		if (isConfirmed) return;
 
+		if (!isOpenQueue) return;
+
+		if (!isSeatFull) return;
+
 		handleAdd((prev) => {
+			if (prev.length > 0) return prev;
 			if (prev.find((w) => w.id === workshop.id)) {
 				return prev;
 			}
-			if (workshop.remainingSeats <= 0) {
+			if (workshop.remainingSeats > 0) {
 				return prev;
 			}
 			const haveTimeConflict = prev.some((selected) => {
@@ -146,7 +156,7 @@ const StaffWorkshopCard: FC<{
 	return (
 		<div
 			className={`flex flex-row relative md:flex-col flex-shrink-0 cursor-pointer ${
-				workshop.remainingSeats <= 0 ? 'cursor-not-allowed opacity-30' : ''
+				workshop.remainingSeats > 0 ? 'cursor-not-allowed opacity-30' : ''
 			}`}
 			onClick={handleSelect}
 		>
@@ -191,7 +201,7 @@ const StaffWorkshopCard: FC<{
 							></path>
 						</svg>
 						{workshop.remainingSeats <= 0
-							? 'เต็ม'
+							? `${workshop.queueCount} คิว`
 							: `ว่าง ${workshop.remainingSeats} จาก ${workshop.seats} ที่นั่ง`}
 					</p>
 				</div>

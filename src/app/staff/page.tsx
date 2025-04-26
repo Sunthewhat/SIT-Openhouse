@@ -31,7 +31,7 @@ const StaffActivity: StaffActivityType[] = [
 		name: 'Add Queue',
 		description: 'จอง queue events ใหม่',
 		image: EventLogo,
-		path_to_redirect: '/staff/events/addeventsqueue',
+		path_to_redirect: '/staff/events/addEventsQueue',
 	},
 	{
 		name: 'ICT Challenge Check-in',

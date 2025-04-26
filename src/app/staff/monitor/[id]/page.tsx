@@ -91,6 +91,7 @@ const WorkshopDetailMonitorPage: FC = () => {
 
 	useEffect(() => {
 		fetchWorkshop();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const AttendeeCard: FC<{ A: Attendee }> = ({ A }) => {

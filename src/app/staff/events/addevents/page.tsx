@@ -12,7 +12,6 @@ const AddWorkshopPage: FC = () => {
 
 	const QrCodeReader: FC = () => {
 		const onReadResult: OnResultFunction = (result, e) => {
-			console.log(result);
 			if (e) {
 				return;
 			}

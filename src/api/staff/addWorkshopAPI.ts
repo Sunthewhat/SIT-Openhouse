@@ -34,9 +34,15 @@ const addWorkshopAPI = async (wid: number[], uuid: string) => {
 		})
 	);
 	if (response.some((res) => res.status !== 200)) {
-		return false;
+		return {
+			success: false,
+			msg: response.map((r) => r.data + ' ').join(),
+		};
 	}
-	return true;
+	return {
+		success: true,
+		msg: response.map((r) => r.data + ' ').join(),
+	};
 };
 
 export { getConfirmedWorkshopAPI, addWorkshopAPI };

@@ -6,6 +6,7 @@ import { ConfirmationPopup } from '@/components/events/confirmationModal';
 import { WorkshopData } from '@/model/workshop/workshopsResponse';
 import { addWorkshopAPI } from '@/api/staff/addWorkshopAPI';
 import { useRouter } from 'next/navigation';
+import { addExistedToQueueAPI } from '@/api/staff/addExistedToQueue';
 
 type SelectedWorkshopBannerProps = {
 	selectedWorkshops: WorkshopData[];
@@ -47,10 +48,13 @@ const SelectedWorkshopBanner: FC<SelectedWorkshopBannerProps> = ({
 
 	const handleStaffAdd = async () => {
 		if (!uuid) return;
-		const response = await addWorkshopAPI(
-			selectedWorkshops.map((w) => w.id),
-			uuid
-		);
+
+		const response = isQueueEvent
+			? addExistedToQueueAPI(selectedWorkshops[0].id, uuid)
+			: await addWorkshopAPI(
+					selectedWorkshops.map((w) => w.id),
+					uuid
+			  );
 		if (!response) {
 			alert('เกิดข้อผิดพลาด');
 			return;
@@ -122,7 +126,9 @@ const SelectedWorkshopBanner: FC<SelectedWorkshopBannerProps> = ({
 			{isStaff === true && isStaffPopupVisible && (
 				<div className='fixed w-full h-full bg-[#00000088] top-0 left-0 flex items-center justify-center'>
 					<div className=' bg-white rounded-2xl p-7 w-11/12 lg:w-8/12 h-5/6 flex flex-col text-center'>
-						<p className='font-bold text-2xl'>ยืนยันการเพิ่มกิจกรรม</p>
+						<p className='font-bold text-2xl'>
+							ยืนยันการ{isQueueEvent ? 'จอง' : `เพิ่ม`}กิจกรรม
+						</p>
 						<div className='flex-grow'>
 							<p className='mt-8'>รายการกิจกรรม</p>
 							<div className='pt-4'>

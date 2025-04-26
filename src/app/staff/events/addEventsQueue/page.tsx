@@ -5,14 +5,13 @@ import { usePathname, useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 import { QrReader, OnResultFunction } from 'react-qr-reader';
 
-const AddWorkshopPage: FC = () => {
+const AddEventsQueuePage: FC = () => {
 	const [isOpenCamera, setIsOpenCamera] = useState<boolean>(false);
 	const navigator = useRouter();
 	const path = usePathname();
 
 	const QrCodeReader: FC = () => {
 		const onReadResult: OnResultFunction = (result, e) => {
-			console.log(result);
 			if (e) {
 				return;
 			}
@@ -75,4 +74,4 @@ const AddWorkshopPage: FC = () => {
 	);
 };
 
-export default AddWorkshopPage;
+export default AddEventsQueuePage;

@@ -20,7 +20,6 @@ type WalkInAPIResponse = {
 const newcomerWalkInAPI = async (data: NewcomerPayloadType): Promise<WalkInAPIResponse> => {
 	try {
 		const resp = await Axios.workshop.post('/addAttendeeWithoutConfirmation', data);
-		console.log(resp);
 
 		return {
 			success: resp.status < 400 && resp.data != 'Invalid Citizen ID',
