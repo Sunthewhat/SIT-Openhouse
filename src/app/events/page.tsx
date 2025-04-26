@@ -43,7 +43,6 @@ const OpenhouseWorkshopPage: FC = () => {
 
 	return (
 		<div className='page w-full'>
-			{/* <OpenhouseBanner /> */}
 			<ImageSlideshow images={exampleImages} autoplaySpeed={10000} />
 			<div className='mainBox max-w-screen-lg m-auto p-5'>
 				<div className='Opening'>

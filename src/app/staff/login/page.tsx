@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, useState } from 'react';
-import LOGO from '@/assets/images/mainLogo_yellow.png';
+import SIT_LOGO from '@/assets/svg/SIT_logo.svg';
 import Image from 'next/image';
 import { StaffLoginAPI } from '@/api/staff/LoginAPI';
 import { useRouter } from 'next/navigation';
@@ -52,11 +52,11 @@ const StaffLoginPage: FC = () => {
 
 	return (
 		<div className='PageBox w-full'>
-			<div className='bg-gradient w-full h-72 lg:h-96 p-12 lg:p-20 flex'>
+			<div className='bg-gradient w-full h-72 lg:h-96 p-12 lg:p-20 flex justify-center'>
 				<Image
-					src={LOGO}
+					src={SIT_LOGO}
 					alt='logo'
-					className='LOGO object-contain h-14 lg:h-24'
+					className='LOGO object-contain max-w-[32rem] w-full h-1/2'
 					priority
 				/>
 			</div>

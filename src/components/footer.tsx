@@ -1,21 +1,9 @@
 import { FC } from 'react';
-// import Image from 'next/image';
-// import logoF from '@/assets/images/mainLogo_yellow.png';
 
 const RegisterFooter: FC = () => {
 	return (
 		<div className='bg-black p-8 md:px-16'>
 			<div className='flex flex-col gap-12 justify-between mb-7 m-auto h-full md:flex-row md:items-center'>
-				{/* <div>
-					<Image
-						src={logoF}
-						alt='Footer Logo'
-						width={120}
-						height={120}
-						priority
-						style={{ width: 'auto', height: 'auto' }}
-					/>
-				</div> */}
 				<div className='flex flex-col md:flex-row gap-6 md:gap-4'>
 					<div className='flex'>
 						<span className='[&>svg]:h-5 [&>svg]:w-5'>

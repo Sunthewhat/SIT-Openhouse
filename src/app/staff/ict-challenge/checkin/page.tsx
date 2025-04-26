@@ -3,7 +3,7 @@
 import { FC, useState } from 'react';
 import { QrReader, OnResultFunction } from 'react-qr-reader';
 import { ICTCheckinAPI } from '@/api/staff/checkinAPI';
-import Logo from '@/assets/images/mainLogo_yellow.png';
+import Logo from '@/assets/svg/SIT_logo.svg';
 import Image from 'next/image';
 import { ICTCheckinResponseType } from '@/model/staff/ictResponse';
 
