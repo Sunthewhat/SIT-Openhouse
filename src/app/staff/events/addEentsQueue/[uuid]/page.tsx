@@ -35,7 +35,7 @@ const StaffWorkshopPage: FC = () => {
 
 	useEffect(() => {
 		fetchWorkshops();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
@@ -108,19 +108,16 @@ const StaffWorkshopCard: FC<{
 	handleAdd: Dispatch<SetStateAction<WorkshopData[]>>;
 	workshops: WorkshopData[];
 }> = ({ workshop, confirmed, handleAdd, workshops }) => {
-	const currentDateTime = new Date();
-	const workshopDateTime = parseWorkshopTimeToDateObject(workshop.startAt);
-	const isToolate = currentDateTime > workshopDateTime;
 	const isConfirmed = confirmed.includes(workshop.id);
 
 	const handleSelect = () => {
-		if (isToolate) return;
 		if (isConfirmed) return;
+
 		handleAdd((prev) => {
 			if (prev.find((w) => w.id === workshop.id)) {
 				return prev;
 			}
-			if (workshop.remainingSeats <= 0 || isToolate) {
+			if (workshop.remainingSeats <= 0) {
 				return prev;
 			}
 			const haveTimeConflict = prev.some((selected) => {
@@ -128,6 +125,11 @@ const StaffWorkshopCard: FC<{
 				const selectedEnd = parseWorkshopTimeToDateObject(selected.endAt);
 				const newStart = parseWorkshopTimeToDateObject(workshop.startAt);
 				const newEnd = parseWorkshopTimeToDateObject(workshop.endAt);
+				const isDDayExisted = selected.id === 31;
+				const isWDday = workshop.id === 31;
+
+				if (isDDayExisted || isWDday) return false;
+
 				return (
 					(newStart < selectedEnd && newStart >= selectedStart) ||
 					(newEnd > selectedStart && newEnd < selectedEnd) ||
@@ -144,7 +146,7 @@ const StaffWorkshopCard: FC<{
 	return (
 		<div
 			className={`flex flex-row relative md:flex-col flex-shrink-0 cursor-pointer ${
-				workshop.remainingSeats <= 0 || isToolate ? 'cursor-not-allowed opacity-30' : ''
+				workshop.remainingSeats <= 0 ? 'cursor-not-allowed opacity-30' : ''
 			}`}
 			onClick={handleSelect}
 		>
@@ -162,10 +164,9 @@ const StaffWorkshopCard: FC<{
 				<Image
 					src={workshop.imagepath!}
 					alt={workshop.imagepath!}
-					layout='contain'
 					width={160}
 					height={160}
-					className='w-full object-cover rounded-lg md:w-full md:rounded-xl md:aspect-video'
+					className='w-full object-cover rounded-lg md:w-full md:rounded-xl aspect-[3/4]'
 					priority
 				/>
 			</div>

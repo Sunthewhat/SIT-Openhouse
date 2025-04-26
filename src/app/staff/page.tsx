@@ -1,7 +1,7 @@
 'use client';
 
 import { FC } from 'react';
-import WorkshopLogo from '@/assets/images/workshop_banner.png';
+import EventLogo from '@/assets/images/workshop_banner.png';
 import ICTLogo from '@/assets/images/ictLogo.png';
 import Image, { StaticImageData } from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -16,16 +16,22 @@ type StaffActivityType = {
 
 const StaffActivity: StaffActivityType[] = [
 	{
-		name: 'Workshop Check-in',
-		description: 'ลงทะเบียนเข้าร่วม Workshop ต่างๆ',
-		image: WorkshopLogo,
-		path_to_redirect: '/staff/workshop/checkin',
+		name: 'Event Check-in',
+		description: 'ลงทะเบียนเข้าร่วม Event ต่างๆ',
+		image: EventLogo,
+		path_to_redirect: '/staff/events/checkin',
 	},
 	{
-		name: 'Add Workshop',
-		description: 'เพิ่ม Workshop ใหม่',
-		image: WorkshopLogo,
-		path_to_redirect: '/staff/workshop/addWorkshop',
+		name: 'Add Events',
+		description: 'เพิ่ม Events ใหม่',
+		image: EventLogo,
+		path_to_redirect: '/staff/events/addevents',
+	},
+	{
+		name: 'Add Queue',
+		description: 'จอง queue events ใหม่',
+		image: EventLogo,
+		path_to_redirect: '/staff/events/addeventsqueue',
 	},
 	{
 		name: 'ICT Challenge Check-in',
@@ -34,10 +40,10 @@ const StaffActivity: StaffActivityType[] = [
 		path_to_redirect: '/staff/ict-challenge/checkin',
 	},
 	{
-		name: 'Workshop Monitor',
-		description: 'ตรวจสอบ Workshop',
-		image: WorkshopLogo,
-		path_to_redirect: '/staff/workshop',
+		name: 'Events Monitor',
+		description: 'ตรวจสอบ Events',
+		image: EventLogo,
+		path_to_redirect: '/staff/events',
 	},
 ];
 
