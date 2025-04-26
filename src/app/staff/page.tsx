@@ -1,11 +1,11 @@
 'use client';
 
 import { FC } from 'react';
-import Logo from '@/assets/images/mainLogo_yellow.png';
 import WorkshopLogo from '@/assets/images/workshop_banner.png';
 import ICTLogo from '@/assets/images/ictLogo.png';
 import Image, { StaticImageData } from 'next/image';
 import { useRouter } from 'next/navigation';
+import { StaffBanner } from '@/components/staff/staffBanner';
 
 type StaffActivityType = {
 	name: string;
@@ -45,23 +45,7 @@ const StaffPage: FC = () => {
 	const navigator = useRouter();
 	return (
 		<div className='w-full max-w-screen-lg mx-auto p-2'>
-			<div className='Banner bg-gradient p-6 py-10 mb-2 rounded-2xl flex justify-between items-center md:p-10'>
-				<Image
-					src={Logo}
-					alt='logo'
-					className='LOGO object-contain h-10 w-fit md:h-14'
-					priority
-				/>
-				<div>
-					{/* <p className='text-white text-2xl font-bold'>SIT Open House 2024</p> */}
-					<p className='text-white text-end font-semibold md:leading-8 md:text-lg'>
-						Welcome to <br />
-						<span className='text-xl text-secondary font-bold md:text-3xl'>
-							{"Staff's Space"}
-						</span>
-					</p>
-				</div>
-			</div>
+			<StaffBanner primary='Welcome to' secondary='Staff Space!' />
 			<div className='w-full grid grid-rows-3 md:grid-rows-1 md:grid-cols-3 gap-2'>
 				{StaffActivity.map((activity, index) => (
 					<div

@@ -13,6 +13,8 @@ interface WorkshopDetailProps {
 	isOpen: boolean;
 	onClose: () => void;
 	handleAdd: () => void;
+	isSeatFull: boolean;
+	isOpenQueue: boolean;
 }
 
 const WorkshopDetail: React.FC<WorkshopDetailProps> = ({
@@ -20,6 +22,8 @@ const WorkshopDetail: React.FC<WorkshopDetailProps> = ({
 	isOpen,
 	onClose,
 	handleAdd,
+	isOpenQueue,
+	isSeatFull,
 }) => {
 	if (!isOpen) return null;
 	return (
@@ -120,11 +124,7 @@ const WorkshopDetail: React.FC<WorkshopDetailProps> = ({
 					>
 						กลับ
 					</button>
-					{workshop.reservationCount >= workshop.seats ? (
-						<button className='bg-gray-300 w-full text-white text-sm font-medium px-6 py-2 rounded-lg focus:outline-none'>
-							เต็ม
-						</button>
-					) : (
+					{!isSeatFull ? (
 						<button
 							className='flex bg-blue_dark w-full text-white font-medium px-6 py-3 rounded-lg focus:outline-none justify-center items-center gap-1 duration-200 hover:bg-blue-600'
 							onClick={() => {
@@ -134,6 +134,21 @@ const WorkshopDetail: React.FC<WorkshopDetailProps> = ({
 						>
 							<Image src={addIcon} alt='add icon' width={11} height={11} />
 							เพิ่ม
+						</button>
+					) : isOpenQueue ? (
+						<button
+							className='flex bg-yellow-500 w-full text-white font-medium px-6 py-3 rounded-lg focus:outline-none justify-center items-center gap-1 duration-200 hover:bg-yellow-300'
+							onClick={() => {
+								handleAdd();
+								onClose();
+							}}
+						>
+							<Image src={addIcon} alt='add icon' width={11} height={11} />
+							จองคิว
+						</button>
+					) : (
+						<button className='bg-gray-300 w-full text-white text-sm font-medium px-6 py-2 rounded-lg focus:outline-none'>
+							เต็ม
 						</button>
 					)}
 				</div>

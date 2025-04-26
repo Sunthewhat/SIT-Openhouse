@@ -1,7 +1,7 @@
 const globalURL = {
 	production: 'https://sitevent-api.sit.kmutt.ac.th',
 	development: 'https://sitevent-dev.sit.kmutt.ac.th',
-	local: 'http://10.4.32.185:8080',
+	local: 'http://10.4.32.46:8080',
 };
 
 const environmentURL = globalURL.production;

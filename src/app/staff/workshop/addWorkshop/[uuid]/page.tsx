@@ -2,12 +2,12 @@
 import { getWorkshopAPI, getWorkshopAPIData } from '@/api/workshop/getWorkshop';
 import { WorkshopData } from '@/model/workshop/workshopsResponse';
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
-import Logo from '@/assets/images/mainLogo_yellow.png';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { getConfirmedWorkshopAPI } from '@/api/staff/addWorkshopAPI';
-import { SelectedWorkshopBanner } from '@/components/openhouse/selectedWorkshopBanner';
+import { SelectedWorkshopBanner } from '@/components/events/selectedWorkshopBanner';
 import { parseWorkshopTimeToDateObject } from '@/utils/parseTime';
+import { StaffBanner } from '@/components/staff/staffBanner';
 
 const StaffWorkshopPage: FC = () => {
 	const [workshops, setWorkshops] = useState<getWorkshopAPIData>();
@@ -35,26 +35,12 @@ const StaffWorkshopPage: FC = () => {
 
 	useEffect(() => {
 		fetchWorkshops();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
 		<div className='w-full max-w-screen-lg p-2 m-auto'>
-			<div className='Banner bg-gradient p-6 py-10 rounded-2xl flex justify-between items-center md:p-10'>
-				<Image
-					src={Logo}
-					alt='logo'
-					className='LOGO object-contain h-10 w-fit md:h-14'
-					priority
-				/>
-				<div>
-					<p className='text-white text-end font-semibold md:leading-8 md:text-lg'>
-						Staff Workshop <br />
-						<span className='text-xl text-secondary font-bold md:text-3xl'>
-							Walk-In Register
-						</span>
-					</p>
-				</div>
-			</div>
+			<StaffBanner primary='Staff Workshop' secondary='Walk-In Register' />
 			{isLoading ? (
 				<div className='h-full text-4xl font-bold flex items-center justify-center'>
 					Loading

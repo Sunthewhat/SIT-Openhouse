@@ -14,6 +14,7 @@ type WorkshopData = {
 	reservationCount: number;
 	reserved: number;
 	remainingSeats: number;
+	queueCount: number;
 	attendCount: number;
 	reserveClose?: number[];
 	reserveOpen?: number[];

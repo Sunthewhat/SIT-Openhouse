@@ -15,6 +15,7 @@ type seatsSummaryResponse = {
 	remainingSeats: number;
 	reserved: number;
 	attendCount: number;
+	queueCount: number;
 };
 
 type WorkshopResponse = {
@@ -37,7 +38,6 @@ type WorkshopResponse = {
 const getWorkshopAPI = async (): Promise<getWorkshopAPIData> => {
 	try {
 		const workshopData = (await Axios.workshop.get<WorkshopResponse[]>('')).data;
-		console.log(workshopData);
 
 		const seatsData = (await Axios.workshop.get<seatsSummaryResponse[]>('/eventSeatSummary'))
 			.data;
@@ -54,13 +54,13 @@ const getWorkshopAPI = async (): Promise<getWorkshopAPIData> => {
 				reserved: reservationCount?.reserved || 0,
 				remainingSeats: reservationCount?.remainingSeats || 0,
 				attendCount: reservationCount?.attendCount || 0,
+				queueCount: reservationCount?.queueCount || 0,
 			};
 		});
 		data.map((d) => {
 			if (!d.reserveOpen) d.reserveOpen = [2020, 1, 1, 0, 0];
 			if (!d.reserveClose) d.reserveClose = [4020, 1, 1, 23, 59];
 			const reservationOpen = parseWorkshopTimeToDateObject(d.reserveOpen);
-			console.log(reservationOpen);
 
 			const reservationClose = parseWorkshopTimeToDateObject(d.reserveClose);
 			const now = new Date();

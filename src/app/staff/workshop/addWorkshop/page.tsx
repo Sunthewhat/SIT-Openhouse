@@ -1,7 +1,6 @@
 'use client';
 
-import Logo from '@/assets/images/mainLogo_yellow.png';
-import Image from 'next/image';
+import { StaffBanner } from '@/components/staff/staffBanner';
 import { usePathname, useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 import { QrReader, OnResultFunction } from 'react-qr-reader';
@@ -13,8 +12,8 @@ const AddWorkshopPage: FC = () => {
 
 	const QrCodeReader: FC = () => {
 		const onReadResult: OnResultFunction = (result, e) => {
+			console.log(result);
 			if (e) {
-				console.log(e);
 				return;
 			}
 			if (!result) return;
@@ -37,23 +36,7 @@ const AddWorkshopPage: FC = () => {
 		<div className='flex flex-col w-full items-center'>
 			<div className='p-2 flex flex-col items-center w-full max-w-screen-sm'>
 				<div className='w-full flex flex-col gap-2'>
-					<div className='Banner bg-gradient p-6 py-10 rounded-2xl flex justify-between items-center md:p-10'>
-						<Image
-							src={Logo}
-							alt='logo'
-							className='LOGO object-contain h-10 w-fit md:h-14'
-							priority
-						/>
-						<div>
-							<p className='text-white text-end font-semibold md:leading-8 md:text-lg'>
-								Add New Workshop
-								<br />
-								<span className='text-xl text-secondary font-bold md:text-3xl'>
-									Scan QR
-								</span>
-							</p>
-						</div>
-					</div>
+					<StaffBanner primary='Add New Workshop' secondary='Scan QR' />
 					<div className='w-full bg-gray-300 overflow-clip flex flex-col items-center rounded-xl'>
 						{isOpenCamera ? (
 							<QrCodeReader />

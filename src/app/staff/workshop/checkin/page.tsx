@@ -3,10 +3,10 @@
 import { getWorkshopAPI, getWorkshopAPIData } from '@/api/workshop/getWorkshop';
 import { WorkshopData } from '@/model/workshop/workshopsResponse';
 import { parseWorkshopTime, parseWorkshopTimeToDateObject } from '@/utils/parseTime';
-import Logo from '@/assets/images/mainLogo_yellow.png';
 import Image from 'next/image';
 import { FC, useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { StaffBanner } from '@/components/staff/staffBanner';
 
 const WorkshopCheckInPage: FC = () => {
 	const navigator = useRouter();
@@ -27,23 +27,7 @@ const WorkshopCheckInPage: FC = () => {
 	}, []);
 	return (
 		<div className='w-full max-w-screen-lg p-2 m-auto'>
-			<div className='Banner bg-gradient p-6 py-10 rounded-2xl flex justify-between items-center md:p-10'>
-				<Image
-					src={Logo}
-					alt='logo'
-					className='LOGO object-contain h-10 w-fit md:h-14'
-					priority
-				/>
-				<div>
-					<p className='text-white text-end font-semibold md:leading-8 md:text-lg'>
-						Walk-In Register
-						<br />
-						<span className='text-xl text-secondary font-bold md:text-3xl'>
-							Select workshop
-						</span>
-					</p>
-				</div>
-			</div>
+			<StaffBanner primary='Walk-In Register' secondary='Select workshop' />
 			{isLoading ? (
 				<div className='text-center text-4xl font-bold border-gray-400 border-[1px] rounded-2xl h-64 flex items-center justify-center'>
 					<p>Loading...</p>
@@ -101,7 +85,7 @@ const WorkshopCard: FC<{ workshop: WorkshopData; handleClick: (id: number) => vo
 					layout='contain'
 					width={160}
 					height={160}
-					className='w-full object-cover rounded-lg md:w-full md:rounded-xl md:aspect-video'
+					className='w-full object-cover rounded-lg md:w-full md:rounded-xl aspect-[3/4]'
 					priority
 				/>
 			</div>

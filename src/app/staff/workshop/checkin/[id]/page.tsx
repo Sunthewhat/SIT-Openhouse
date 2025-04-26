@@ -2,12 +2,12 @@
 
 import { getWorkshopAPI } from '@/api/workshop/getWorkshop';
 import { WorkshopData } from '@/model/workshop/workshopsResponse';
-import Logo from '@/assets/images/mainLogo_yellow.png';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
 import { QrReader, OnResultFunction } from 'react-qr-reader';
 import { WorkshopCheckinAPI } from '@/api/staff/checkinAPI';
+import { StaffBanner } from '@/components/staff/staffBanner';
 
 const WorkshopCheckInPage: FC = () => {
 	const workshopId = parseInt(useParams<{ id: string }>().id);
@@ -71,23 +71,7 @@ const WorkshopCheckInPage: FC = () => {
 			{!isLoading && workshop ? (
 				<div className='p-2 flex flex-col items-center w-full max-w-screen-sm'>
 					<div className='w-full flex flex-col gap-2'>
-						<div className='Banner bg-gradient p-6 py-10 rounded-2xl flex justify-between items-center md:p-10'>
-							<Image
-								src={Logo}
-								alt='logo'
-								className='LOGO object-contain h-10 w-fit md:h-14'
-								priority
-							/>
-							<div>
-								<p className='text-white text-end font-semibold md:leading-8 md:text-lg'>
-									Walk-In Register
-									<br />
-									<span className='text-xl text-secondary font-bold md:text-3xl'>
-										Scan QR
-									</span>
-								</p>
-							</div>
-						</div>
+						<StaffBanner primary='Walk-In Register' secondary='Scan QR' />
 						<div className='w-full'>
 							<div className='flex justify-center rounded-2xl'>
 								<Image

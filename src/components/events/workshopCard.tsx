@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 import Image from 'next/image';
-import { WorkshopDetail } from '@/components/openhouse/workshopDetailModal';
+import { WorkshopDetail } from '@/components/events/workshopDetailModal';
 import { WorkshopData } from '@/model/workshop/workshopsResponse';
 import { parseWorkshopTime, parseWorkshopTimeToDateObject } from '@/utils/parseTime';
 
@@ -13,6 +13,18 @@ type WorkshopCardProps = {
 const WorkshopCard: FC<WorkshopCardProps> = ({ workshop, handleSelect, selectedWorkshop }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isNotSelectable, setIsNotSelectable] = useState(false);
+	const isSeatFull = workshop.reservationCount >= workshop.seats;
+	const workshopDate = parseWorkshopTimeToDateObject(workshop.startAt);
+	const queueOpeningTime = new Date(
+		workshopDate.getFullYear(),
+		workshopDate.getMonth(),
+		workshopDate.getDate(),
+		8,
+		0
+	);
+
+	const isOpenQueue = new Date() >= queueOpeningTime;
+
 	const handleShowNotSelectable = () => {
 		setIsNotSelectable(true);
 		setTimeout(() => {
@@ -24,9 +36,19 @@ const WorkshopCard: FC<WorkshopCardProps> = ({ workshop, handleSelect, selectedW
 			if (prev.find((w) => w.id === workshop.id)) {
 				return prev;
 			}
-			if (workshop.reservationCount >= workshop.seats) {
+			if (isSeatFull && !isOpenQueue) {
 				return prev;
 			}
+
+			if (isSeatFull) {
+				if (prev.length !== 0) return prev;
+				return [workshop];
+			}
+
+			if (prev.length === 1 && prev[0].remainingSeats <= 0) {
+				return prev;
+			}
+
 			const haveTimeConflict = prev.some((selected) => {
 				const selectedStart = parseWorkshopTimeToDateObject(selected.startAt);
 				const selectedEnd = parseWorkshopTimeToDateObject(selected.endAt);
@@ -127,17 +149,19 @@ const WorkshopCard: FC<WorkshopCardProps> = ({ workshop, handleSelect, selectedW
 					</button>
 					<button
 						className={`${
-							workshop.reservationCount >= workshop.seats
-								? 'bg-gray-400 text-gray-600 '
-								: 'bg-blue_dark text-white hover:bg-blue-600'
+							!isSeatFull
+								? 'bg-blue_dark text-white hover:bg-blue-600'
+								: isOpenQueue
+								? 'bg-yellow-500 hover:bg-yellow-300 text-white'
+								: 'bg-gray-400 text-gray-600 '
 						} bg-blue_dark w-full py-2 rounded-lg duration-200 `}
 						onClick={(e) => {
 							e.stopPropagation();
 							handleAdd();
 						}}
-						disabled={workshop.reservationCount >= workshop.seats}
+						disabled={isSeatFull && !isOpenQueue}
 					>
-						<p>{workshop.reservationCount >= workshop.seats ? 'เต็ม' : '+ เพิ่ม'}</p>
+						<p>{!isSeatFull ? '+ เพิ่ม' : isOpenQueue ? 'จองคิว' : 'เต็ม'}</p>
 					</button>
 				</div>
 				<WorkshopDetail
@@ -145,6 +169,8 @@ const WorkshopCard: FC<WorkshopCardProps> = ({ workshop, handleSelect, selectedW
 					isOpen={isModalOpen}
 					onClose={handleCloseModal}
 					handleAdd={handleAdd}
+					isSeatFull={isSeatFull}
+					isOpenQueue={isOpenQueue}
 				/>
 				<NotSelectableNotice isOpen={isNotSelectable} />
 			</div>

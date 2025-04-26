@@ -2,7 +2,7 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import Image from 'next/image';
 import removeIcon from '@/assets/svg/remove.svg';
 import submit from '@/assets/svg/submit.svg';
-import { ConfirmationPopup } from '@/components/openhouse/confirmationModal';
+import { ConfirmationPopup } from '@/components/events/confirmationModal';
 import { WorkshopData } from '@/model/workshop/workshopsResponse';
 import { addWorkshopAPI } from '@/api/staff/addWorkshopAPI';
 import { useRouter } from 'next/navigation';
@@ -24,6 +24,9 @@ const SelectedWorkshopBanner: FC<SelectedWorkshopBannerProps> = ({
 }) => {
 	const [isPopupVisible, setIsPopupVisible] = useState(false);
 	const [isStaffPopupVisible, setIsStaffPopupVisible] = useState(false);
+	const isQueueEvent =
+		selectedWorkshops.length === 1 &&
+		selectedWorkshops[0].reservationCount >= selectedWorkshops[0].seats;
 
 	const navigator = useRouter();
 
@@ -61,32 +64,34 @@ const SelectedWorkshopBanner: FC<SelectedWorkshopBannerProps> = ({
 		<>
 			{selectedWorkshops.length > 0 && (
 				<div className='w-full sticky bottom-0 flex justify-center pb-10'>
-					<div className='bg-blue_dark py-2 rounded-3xl'>
+					<div
+						className={`py-2 rounded-3xl ${
+							isQueueEvent ? 'bg-yellow-500' : 'bg-blue_dark'
+						}`}
+					>
 						<div className='justify-center px-4 py-2 grid grid-cols-12 items-center gap-3'>
 							{selectedWorkshops.map((w, s) => (
-								<>
-									<div
-										key={s}
-										className='grid grid-cols-6 w-full bg-white px-4 py-2 text-sm lg:text-base rounded-md col-span-6 lg:col-span-3'
-									>
-										<p className='truncate col-span-5'>{w.name}</p>
-										{(!isStaff === undefined && isStaff === true) ||
-											(!confirmed?.includes(w.id) && (
-												<div
-													className='flex justify-center'
-													onClick={() => removeWorkshop(w.id)}
-												>
-													<Image
-														className='ml-2'
-														src={removeIcon}
-														width={18}
-														height={18}
-														alt='close'
-													/>
-												</div>
-											))}
-									</div>
-								</>
+								<div
+									key={s}
+									className='grid grid-cols-6 w-full bg-white px-4 py-2 text-sm lg:text-base rounded-md col-span-6 lg:col-span-3'
+								>
+									<p className='truncate col-span-5'>{w.name}</p>
+									{(!isStaff === undefined && isStaff === true) ||
+										(!confirmed?.includes(w.id) && (
+											<div
+												className='flex justify-center'
+												onClick={() => removeWorkshop(w.id)}
+											>
+												<Image
+													className='ml-2'
+													src={removeIcon}
+													width={18}
+													height={18}
+													alt='close'
+												/>
+											</div>
+										))}
+								</div>
 							))}
 							<div
 								className='flex flex-row bg-[#FCD34D] text-sm lg:text-base items-center justify-center py-2 rounded-md cursor-pointer col-span-4 col-start-9 lg:col-span-2 lg:col-start-11'
@@ -111,6 +116,7 @@ const SelectedWorkshopBanner: FC<SelectedWorkshopBannerProps> = ({
 					isVisible={isPopupVisible}
 					onClose={togglePopup}
 					workshops={selectedWorkshops}
+					isQueueEvent={isQueueEvent}
 				/>
 			)}
 			{isStaff === true && isStaffPopupVisible && (

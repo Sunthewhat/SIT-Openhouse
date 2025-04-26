@@ -1,26 +1,9 @@
-// components/Popup.tsx
-
-import { WorkshopData } from '@/model/workshop/workshopsResponse';
-import { Dispatch, FC, SetStateAction, useState } from 'react';
-
-import Image from 'next/image';
-import { Modal } from '../modal';
-
-import { parseWorkshopTime } from '@/utils/parseTime';
-import { emailValidator } from '@/utils/validateEmail';
-import { sendWorkshopFormAPI } from '@/api/workshop/sendForm';
+import { NewcomerPayloadType, newcomerWalkInAPI } from '@/api/events/walk-in';
 import { searchSchoolAPI } from '@/api/ict-register/searchSchool';
-import { WorkshopPayloadType } from '@/model/workshop/workshopPayload';
+import { Modal } from '@/components/modal';
 import { SearchBySchoolResponseType } from '@/model/ICT-register/searchBySchoolResponse';
-
-import MailImage from '@/assets/svg/mail.svg';
-import timeIcon from '@/assets/svg/time_icon.svg';
-
-type PopupProps = {
-	workshops: WorkshopData[];
-	isVisible: boolean;
-	onClose: () => void;
-};
+import { emailValidator } from '@/utils/validateEmail';
+import { FC, useState } from 'react';
 
 type ErrorType = {
 	title?: string;
@@ -34,7 +17,7 @@ type ErrorType = {
 	schoolID?: string;
 };
 
-const initialFormData: WorkshopPayloadType = {
+const initialFormData: NewcomerPayloadType = {
 	title: '',
 	firstName: '',
 	lastName: '',
@@ -44,11 +27,16 @@ const initialFormData: WorkshopPayloadType = {
 	currentClass: '',
 	studyPlan: '',
 	schoolID: -1,
-	eventIDList: [],
 };
-const ConfirmationPopup: FC<PopupProps> = ({ isVisible, onClose, workshops }) => {
+
+type NewcomerModalProps = {
+	isVisible: boolean;
+	onClose: () => void;
+};
+
+const NewcomerModal: FC<NewcomerModalProps> = ({ isVisible, onClose }) => {
 	const [errors, setErrors] = useState<ErrorType>({});
-	const [formData, setFormData] = useState<WorkshopPayloadType>(initialFormData);
+	const [formData, setFormData] = useState<NewcomerPayloadType>(initialFormData);
 
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 	const [isSchoolloading, setIsSchoolLoading] = useState<boolean>(false);
@@ -58,9 +46,6 @@ const ConfirmationPopup: FC<PopupProps> = ({ isVisible, onClose, workshops }) =>
 	const [schoolSearchResults, setSchoolSearchResults] = useState<SearchBySchoolResponseType[]>(
 		[]
 	);
-
-	const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
-	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState<boolean>(false);
 
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -128,20 +113,19 @@ const ConfirmationPopup: FC<PopupProps> = ({ isVisible, onClose, workshops }) =>
 			setErrors(errors);
 			return;
 		}
-		setIsConfirmModalOpen(true);
+		handleSendForm();
 	};
 
 	const handleSendForm = async () => {
 		if (isSubmitting) return;
 		setIsSubmitting(true);
-		const payload: WorkshopPayloadType = {
+		const payload: NewcomerPayloadType = {
 			...formData,
-			eventIDList: workshops.map((w) => w.id),
 		};
 
-		const res = await sendWorkshopFormAPI(payload);
-		if (res.status) {
-			setIsSuccessModalOpen(true);
+		const res = await newcomerWalkInAPI(payload);
+		if (res.success) {
+			onClose();
 		} else {
 			alert('ลงทะเบียนไม่สำเร็จ\n' + res.msg);
 		}
@@ -151,25 +135,14 @@ const ConfirmationPopup: FC<PopupProps> = ({ isVisible, onClose, workshops }) =>
 	return (
 		<Modal isOpen={isVisible} setIsOpen={onClose}>
 			<div
-				className='bg-white w-11/12 lg:max-w-[1000px] h-5/6 lg:5/6 relative rounded-md shadow-lg p-6 lg:p-14 overflow-y-scroll'
+				className='bg-white w-11/12 lg:max-w-[1000px] h-5/6 lg:h-fit lg:5/6 relative rounded-md shadow-lg p-6 lg:p-14 overflow-y-scroll'
 				onClick={(e) => e.stopPropagation()}
 			>
-				{' '}
-				{/* Changed h-[770px] to h-auto */}
-				{/* Popup Content */}
 				<h2 className='text-xl lg:text-[30px] font-bold text-[#1C3FB7] text-center mb-4'>
-					ยืนยันการลงทะเบียนกิจกรรม
+					ลงทะเบียนเข้าชมกิจกรรม
 				</h2>
 				<p className='font-inter text-base lg:text-[20px] font-semibold leading-[30px] text-left text-[#1C3FB7] border-b border-[#DFE4EA] pb-3 mt-[15px]'>
-					กิจกรรมที่ลงทะเบียน
-				</p>
-				<div className='rounded-md p-2 lg:p-6 my-4 w-full grid grid-cols-2 gap-5'>
-					{workshops.map((w, i) => (
-						<ConfirmationWorkshopCard key={i} w={w} full={false} />
-					))}
-				</div>
-				<p className='font-inter text-base lg:text-[20px] font-semibold leading-[30px] text-left text-[#1C3FB7] border-b border-[#DFE4EA] pb-3 mt-[15px]'>
-					ข้อมูลผู้ลงทะเบียน
+					ข้อมูลผู้เข้าชม
 				</p>
 				<div className='mt-3 grid grid-cols-4 lg:grid-cols-12 gap-y-5 lg:gap-5 w-full'>
 					<div className='md:w-[120px] w-full col-span-2 relative flex flex-col'>
@@ -406,149 +379,15 @@ const ConfirmationPopup: FC<PopupProps> = ({ isVisible, onClose, workshops }) =>
 
 					{/* Submit Button */}
 					<button
-						className='bg-[#1C3FB7] text-white text-sm lg:text-base font-semibold lg:py-2 lg:px-4 rounded-md w-full md:w-[177px] h-[50px]'
+						className={`text-white text-sm lg:text-base font-semibold lg:py-2 lg:px-4 rounded-md w-full md:w-[177px] h-[50px] bg-[#1C3FB7]`}
 						onClick={handleSubmit}
 					>
 						ยืนยันการลงทะเบียน
 					</button>
 				</div>
 			</div>
-			<ConfirmModal
-				isOpen={isConfirmModalOpen}
-				onClose={setIsConfirmModalOpen}
-				onSubmit={handleSendForm}
-				isSubmitting={isSubmitting}
-			/>
-			<SuccessModal isOpen={isSuccessModalOpen} onClose={setIsSuccessModalOpen} />
 		</Modal>
 	);
 };
 
-const ConfirmModal: FC<{
-	isOpen: boolean;
-	onClose: Dispatch<SetStateAction<boolean>>;
-	onSubmit: () => void;
-	isSubmitting: boolean;
-}> = ({ isOpen, onClose, onSubmit, isSubmitting }) => {
-	return (
-		<Modal isOpen={isOpen} setIsOpen={onClose}>
-			<div
-				className='ConfirmModal w-11/12 lg:w-1/2 h-fit bg-white p-8 rounded-2xl'
-				onClick={(e) => e.stopPropagation()}
-			>
-				<p className='text-[#1C3FB7] font-bold text-xl text-center'>
-					ยืนยันการลงทะเบียนหรือไม่
-				</p>
-				<div className='text-[#637381] text-sm text-center my-8 px-7'>
-					<span className='font-semibold'>
-						หากใส่อีเมลไม่ถูกต้อง ระบบจะไม่สามารถส่งอีเมลยืนยันการลงทะเบียนให้ท่านได้
-					</span>
-					<br />
-					<span>
-						<p>
-							ระบบจะส่งอีเมลยืนยันการลงทะเบียนให้ท่านผ่านทางอีเมล
-							โปรดยืนยันการลงทะเบียนภายใน 30 นาทีนับจากที่กดยืนยัน
-						</p>
-						<p className='text-red-500 font-semibold'>
-							หากท่านเคยลงทะเบียนไปแล้ว ระบบจะยกเลิกการลงทะเบียนครั้งก่อนของท่าน
-							และจะแทนที่ด้วยข้อมูลการจองครั้งใหม่ทั้งหมด
-						</p>
-					</span>
-				</div>
-				<div className='grid grid-cols-4 gap-3'>
-					<button
-						className='bg-[#9CA3AF] col-start-3 text-white text-sm lg:text-base font-semibold lg:py-2 lg:px-4 rounded-md w-full h-[50px]'
-						onClick={() => onClose(false)}
-					>
-						ยกเลิก
-					</button>
-					<button
-						className={`col-start-4 text-white text-sm lg:text-base font-semibold lg:py-2 lg:px-4 rounded-md w-fullh-[50px] ${
-							isSubmitting
-								? 'cursor-not-allowed bg-[#9CA3AF]'
-								: 'cursor-pointer bg-[#1C3FB7]'
-						}`}
-						onClick={onSubmit}
-						disabled={isSubmitting}
-					>
-						{isSubmitting ? 'กำลังยืนยัน' : 'ยืนยัน'}
-					</button>
-				</div>
-			</div>
-		</Modal>
-	);
-};
-
-const ConfirmationWorkshopCard: FC<{ w: WorkshopData; full: boolean }> = ({ w, full }) => {
-	return (
-		<div
-			className={
-				full
-					? 'grid grid-cols-8 gap-5 col-span-2'
-					: 'grid grid-cols-8 gap-5 lg:col-span-1 col-span-2'
-			}
-		>
-			{w.imagepath ? (
-				<Image
-					src={w.imagepath}
-					alt={w.name}
-					className='col-span-3 object-cover rounded-2xl bg-gradient h-full'
-					width={400}
-					height={400}
-				/>
-			) : (
-				<div className='col-span-3 object-cover rounded-2xl bg-gradient'></div>
-			)}
-			<div className='text_container col-span-5 font-semibold'>
-				<h1 className='text-ellipsis line-clamp-1'>{w.name}</h1>
-				<p className='font-light text-ellipsis line-clamp-2 text-[#637381] text-sm'>
-					{w.shortdescription}
-				</p>
-				<div className='flex gap-2 items-center'>
-					<Image src={timeIcon} alt={'timeIcon'} width={25} height={25} />{' '}
-					<p className='text-sm text-[#637381]'>
-						{parseWorkshopTime(w.startAt).time} - {parseWorkshopTime(w.endAt).time}
-					</p>
-				</div>
-			</div>
-		</div>
-	);
-};
-
-const SuccessModal: FC<{
-	isOpen: boolean;
-	onClose: Dispatch<SetStateAction<boolean>>;
-}> = ({ isOpen, onClose }) => {
-	return (
-		<Modal isOpen={isOpen} setIsOpen={onClose}>
-			<div
-				className='ConfirmModal w-11/12 lg:w-1/2 h-fit bg-white p-8 rounded-2xl'
-				onClick={(e) => e.stopPropagation()}
-			>
-				<p className='text-[#1C3FB7] font-bold text-xl text-center'>
-					ยืนยันการลงทะเบียนของท่านผ่านทางอีเมล
-				</p>
-				<div className='flex justify-center'>
-					<Image src={MailImage} alt='MailImage' className='w-24' />
-				</div>
-				<p className='text-[#637381] text-sm mt-6 text-center'>
-					ระบบได้ส่งอีเมลยืนยันการลงทะเบียนของท่านผ่านทางอีเมลแล้ว
-					กรุณายืนยันการลงทะเบียนภายใน 30 นาทีนี้
-				</p>
-				<div className='grid grid-cols-3 gap-3 mt-6'>
-					<button
-						className='bg-[#1C3FB7] col-start-2 text-white text-sm lg:text-base font-semibold py-1 lg:py-2 lg:px-4 rounded-md w-fullh-[50px]'
-						onClick={() => {
-							onClose(false);
-							window.location.reload();
-						}}
-					>
-						เสร็จสิ้น
-					</button>
-				</div>
-			</div>
-		</Modal>
-	);
-};
-
-export { ConfirmationPopup }; // Ensure the name matches the component definition
+export { NewcomerModal };

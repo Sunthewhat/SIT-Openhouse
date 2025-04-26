@@ -2,8 +2,9 @@
 import { getWorkshopAPI, getWorkshopAPIData } from '@/api/workshop/getWorkshop';
 import { WorkshopData } from '@/model/workshop/workshopsResponse';
 import { FC, useEffect, useState } from 'react';
-import Logo from '@/assets/images/mainLogo_yellow.png';
 import Image from 'next/image';
+import { StaffBanner } from '@/components/staff/staffBanner';
+import { useRouter } from 'next/navigation';
 
 const StaffWorkshopMonitorPage: FC = () => {
 	const [workshops, setWorkshops] = useState<getWorkshopAPIData>();
@@ -21,22 +22,7 @@ const StaffWorkshopMonitorPage: FC = () => {
 
 	return (
 		<div className='w-full max-w-screen-lg p-2 m-auto'>
-			<div className='Banner bg-gradient p-6 py-10 rounded-2xl flex justify-between items-center md:p-10'>
-				<Image
-					src={Logo}
-					alt='logo'
-					className='LOGO object-contain h-10 w-fit md:h-14'
-					priority
-				/>
-				<div>
-					<p className='text-white text-end font-semibold md:leading-8 md:text-lg'>
-						Staff Workshop <br />
-						<span className='text-xl text-secondary font-bold md:text-3xl'>
-							Monitor Page
-						</span>
-					</p>
-				</div>
-			</div>
+			<StaffBanner primary='Staff Workshop' secondary='Monitor Page' />
 			{isLoading ? (
 				<div className='h-full text-4xl font-bold flex items-center justify-center'>
 					Loading
@@ -51,22 +37,26 @@ const StaffWorkshopMonitorPage: FC = () => {
 							))}
 						</div>
 					</div>
-					<div className='Noon'>
-						<p className='text-2xl my-8 font-bold text-blue_dark'>Upcoming</p>
-						<div className='NoonWorkshop flex flex-col gap-2 mb-12 md:gap-y-8 md:grid md:grid-cols-4'>
-							{workshops?.upcomingEvents.map((w, i) => (
-								<StaffWorkshopCard workshop={w} key={i} />
-							))}
+					{workshops && workshops.upcomingEvents.length > 0 && (
+						<div className='Noon'>
+							<p className='text-2xl my-8 font-bold text-blue_dark'>Upcoming</p>
+							<div className='NoonWorkshop flex flex-col gap-2 mb-12 md:gap-y-8 md:grid md:grid-cols-4'>
+								{workshops?.upcomingEvents.map((w, i) => (
+									<StaffWorkshopCard workshop={w} key={i} />
+								))}
+							</div>
 						</div>
-					</div>
-					<div className='Afternoon'>
-						<p className='text-2xl my-8 font-bold text-blue_dark'>Completed</p>
-						<div className='AfterNoonWorkshop flex flex-col gap-2 mb-12 md:gap-y-8 md:grid md:grid-cols-4'>
-							{workshops?.completedEvents.map((w, i) => (
-								<StaffWorkshopCard workshop={w} key={i} />
-							))}
+					)}
+					{workshops && workshops?.completedEvents.length > 0 && (
+						<div className='Afternoon'>
+							<p className='text-2xl my-8 font-bold text-blue_dark'>Completed</p>
+							<div className='AfterNoonWorkshop flex flex-col gap-2 mb-12 md:gap-y-8 md:grid md:grid-cols-4'>
+								{workshops?.completedEvents.map((w, i) => (
+									<StaffWorkshopCard workshop={w} key={i} />
+								))}
+							</div>
 						</div>
-					</div>
+					)}
 				</div>
 			)}
 		</div>
@@ -76,20 +66,22 @@ const StaffWorkshopMonitorPage: FC = () => {
 const StaffWorkshopCard: FC<{
 	workshop: WorkshopData;
 }> = ({ workshop }) => {
+	const navigator = useRouter();
+	const handleDetailPage = () => {
+		navigator.push(`monitor/${workshop.id}`);
+	};
 	return (
 		<div
-			className={`flex flex-row relative md:flex-col flex-shrink-0 cursor-pointer ${
-				workshop.remainingSeats <= 0 ? 'cursor-not-allowed opacity-30' : ''
-			}`}
+			className={`flex flex-row relative md:flex-col flex-shrink-0 cursor-pointer`}
+			onClick={handleDetailPage}
 		>
 			<div className='w-72 md:w-full mr-2 md:m-0'>
 				<Image
 					src={workshop.imagepath!}
 					alt={workshop.imagepath!}
-					layout='contain'
 					width={160}
 					height={160}
-					className='w-full object-cover rounded-lg md:w-full md:rounded-xl md:aspect-video'
+					className='object-cover rounded-lg md:w-full md:rounded-xl aspect-[3/4]'
 					priority
 				/>
 			</div>
@@ -114,7 +106,7 @@ const StaffWorkshopCard: FC<{
 							></path>
 						</svg>
 						{workshop.remainingSeats <= 0
-							? 'เต็ม'
+							? `${workshop.queueCount} คิว`
 							: `ว่าง ${workshop.remainingSeats} จาก ${workshop.seats} ที่นั่ง`}
 					</p>
 				</div>

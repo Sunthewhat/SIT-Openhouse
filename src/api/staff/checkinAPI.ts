@@ -8,7 +8,6 @@ const WorkshopCheckinAPI = async (
 ): Promise<{ success: boolean; str: string }> => {
 	try {
 		const token = staffCookieHandler.getCred();
-		console.log(token);
 
 		if (!token) {
 			return {

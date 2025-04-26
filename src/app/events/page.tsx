@@ -1,13 +1,12 @@
 'use client';
 import { getWorkshopAPI, getWorkshopAPIData } from '@/api/workshop/getWorkshop';
-// import { OpenhouseBanner } from '@/components/openhouse/banner';
-import { SelectedWorkshopBanner } from '@/components/openhouse/selectedWorkshopBanner';
-import { WorkshopCard, WorkshopCardPlaceholder } from '@/components/openhouse/workshopCard';
+import { SelectedWorkshopBanner } from '@/components/events/selectedWorkshopBanner';
+import { WorkshopCard, WorkshopCardPlaceholder } from '@/components/events/workshopCard';
 import { WorkshopData } from '@/model/workshop/workshopsResponse';
 import { FC, useEffect, useState } from 'react';
-import { PDPAModal } from '@/components/openhouse/PDPAModal';
+import { PDPAModal } from '@/components/events/PDPAModal';
 import { workshopCookieHandler } from '@/utils/workshop-cookie-hander';
-import ImageSlideshow from '@/components/openhouse/imageSlide';
+import ImageSlideshow from '@/components/events/imageSlide';
 
 const OpenhouseWorkshopPage: FC = () => {
 	const [workshops, setWorkshops] = useState<getWorkshopAPIData | null>(null);
@@ -53,6 +52,9 @@ const OpenhouseWorkshopPage: FC = () => {
 					</p>
 					<p className='text-md my-1 md:my-4 text-gray-600'>
 						โปรดเลือกกิจกรรมที่ท่านสนใจให้ครบถ้วน ก่อนดำเนินการยืนยัน
+					</p>
+					<p className='text-md my-1 md:my-4 text-gray-600'>
+						การจองคิวจะสามารถจองได้ครั้งละ 1 กิจกรรมเท่านั้น
 					</p>
 					<div className='OpeningEvents gap-x-2 mb-12 gap-y-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4'>
 						{workshops === null || workshops.openingEvents.length === 0 ? (
