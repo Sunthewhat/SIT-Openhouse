@@ -18,6 +18,8 @@ const getEventDetailById = async (id: number): Promise<getEventDetailByIdRespons
 			},
 		};
 	} catch (e) {
+		console.log(e);
+		
 		return {
 			success: false,
 			workshop: null,

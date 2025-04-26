@@ -15,6 +15,8 @@ const getAttendee = async (id: number) => {
 			data: data.data,
 		};
 	} catch (e) {
+		console.log(e);
+
 		return {
 			success: false,
 			data: null,

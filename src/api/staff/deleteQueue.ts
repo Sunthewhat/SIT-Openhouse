@@ -17,6 +17,8 @@ const deleteQueue = async (eventId: number, attendeeUuid: string) => {
 
 		return resp.status < 400;
 	} catch (e) {
+		console.log(e);
+
 		return false;
 	}
 };

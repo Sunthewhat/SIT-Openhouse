@@ -11,6 +11,8 @@ const reclaimSeats = async (id: number) => {
 		});
 		return res.status === 200;
 	} catch (e) {
+		console.log(e);
+
 		return false;
 	}
 };

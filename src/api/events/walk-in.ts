@@ -27,6 +27,8 @@ const newcomerWalkInAPI = async (data: NewcomerPayloadType): Promise<WalkInAPIRe
 			msg: resp.data,
 		};
 	} catch (e) {
+		console.log(e);
+
 		return {
 			success: false,
 			msg: 'Network Error',
@@ -45,6 +47,8 @@ const registeredWalkInAPI = async (idcard: string, phone: string): Promise<WalkI
 			msg: resp.data,
 		};
 	} catch (e) {
+		console.log(e);
+
 		return {
 			success: false,
 			msg: 'Network Error',
