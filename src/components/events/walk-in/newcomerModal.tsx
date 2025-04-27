@@ -270,6 +270,11 @@ const NewcomerModal: FC<NewcomerModalProps> = ({ isVisible, onClose }) => {
 						>
 							<option value=''></option>
 							<option value='อาจารย์'>อาจารย์</option>
+							<option value='ภาคอุตสาหกรรม'>ภาคอุตสาหกรรม</option>
+							<option value='ภาคอุตสาหกรรม(ศิษย์เก่า)'>
+								ภาคอุตสาหกรรม(ศิษย์เก่า)
+							</option>
+							<option value='นักศึกษา'>นักศึกษา</option>
 							<option value='มัธยมศึกษาปีที่ 6'>มัธยมศึกษาปีที่ 6</option>
 							<option value='มัธยมศึกษาปีที่ 5'>มัธยมศึกษาปีที่ 5</option>
 							<option value='มัธยมศึกษาปีที่ 4'>มัธยมศึกษาปีที่ 4</option>
