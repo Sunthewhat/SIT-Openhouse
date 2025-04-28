@@ -36,8 +36,8 @@ const WorkshopCard: FC<WorkshopCardProps> = ({ workshop, handleSelect, selectedW
 			if (prev.find((w) => w.id === workshop.id)) {
 				return prev;
 			}
-			// if (isSeatFull && !isOpenQueue) {
-			if (isSeatFull) {
+			if (isSeatFull && !isOpenQueue) {
+				// if (isSeatFull) {
 				return prev;
 			}
 
