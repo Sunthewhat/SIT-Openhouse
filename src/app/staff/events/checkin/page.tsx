@@ -58,21 +58,24 @@ const WorkshopCard: FC<{ workshop: WorkshopData; handleClick: (id: number) => vo
 	const currentTime = new Date();
 	// Before workshop start 30 mins and after workshop start 15 mins
 	const isTooEarly = currentTime.getTime() < workshopTime.getTime() - 30 * 60 * 1000;
-	const isTooLate = currentTime.getTime() > workshopTime.getTime() + 15 * 60 * 1000;
+	// const isTooLate = currentTime.getTime() > workshopTime.getTime() + 15 * 60 * 1000;
 
 	const handleNavigate = () => {
-		if (isTooEarly || isTooLate) return;
+		// if (isTooEarly || isTooLate) return;
+		if (isTooEarly) return;
 		handleClick(workshop.id);
 	};
 
 	return (
 		<div
 			className={`flex relative flex-row md:flex-col flex-shrink-0 cursor-pointer ${
-				isTooEarly || isTooLate ? 'cursor-not-allowed' : ''
+				// isTooEarly || isTooLate ? 'cursor-not-allowed' : ''
+				isTooEarly ? 'cursor-not-allowed' : ''
 			}`}
 			onClick={handleNavigate}
 		>
-			{isTooEarly || isTooLate ? (
+			{/* {isTooEarly || isTooLate ? ( */}
+			{isTooEarly ? (
 				<div className='absolute h-full w-full flex md:flex-col p-4 items-center md:justify-around text-center bg-[#E5E7EBCC] rounded-xl top-0 left-0 cursor-default'>
 					<p>{isTooEarly ? 'ยังไม่เปิดให้ลงทะเบียน' : 'หมดเวลาลงทะเบียน'}</p>
 					<div />
