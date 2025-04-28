@@ -2,7 +2,7 @@
 
 import { getWorkshopAPI, getWorkshopAPIData } from '@/api/workshop/getWorkshop';
 import { WorkshopData } from '@/model/workshop/workshopsResponse';
-import { parseWorkshopTime, parseWorkshopTimeToDateObject } from '@/utils/parseTime';
+import { parseWorkshopTime } from '@/utils/parseTime';
 import Image from 'next/image';
 import { FC, useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
