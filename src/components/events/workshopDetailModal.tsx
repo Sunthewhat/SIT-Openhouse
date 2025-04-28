@@ -105,8 +105,9 @@ const WorkshopDetail: React.FC<WorkshopDetailProps> = ({
 													: '',
 										}}
 									>
-										{workshop.seats < 0 ? 0 : workshop.seats} ที่นั่ง (เหลือ{' '}
-										{workshop.remainingSeats} ที่นั่ง)
+										{workshop.seats} ที่นั่ง (เหลือ{' '}
+										{workshop.remainingSeats < 0 ? 0 : workshop.remainingSeats}{' '}
+										ที่นั่ง)
 									</span>
 								</div>
 							</div>
